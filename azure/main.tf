@@ -29,5 +29,5 @@ resource "azurerm_container_registry" "mlContainerRegistry" {
   resource_group_name = azurerm_resource_group.mlObli.name
   location            = azurerm_resource_group.mlObli.location
   sku                 = "Standard"
-  admin_enabled       = false
+  admin_enabled       = true
 }

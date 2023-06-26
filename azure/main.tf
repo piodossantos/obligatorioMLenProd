@@ -31,3 +31,33 @@ resource "azurerm_container_registry" "mlContainerRegistry" {
   sku                 = "Standard"
   admin_enabled       = true
 }
+
+resource "azurerm_log_analytics_workspace" "mlScrapperLogs" {
+  name                = var.ml_scrapper_logs
+  location            = azurerm_resource_group.mlObli.location
+  resource_group_name = azurerm_resource_group.mlObli.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
+resource "azurerm_container_app_environment" "mlScrapperEnv" {
+  name                       = var.ml_scrapper_env
+  location                   = azurerm_resource_group.mlObli.location
+  resource_group_name        = azurerm_resource_group.mlObli.name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.mlScrapperLogs.id
+}
+resource "azurerm_container_app" "mlScrapperApp" {
+  name                         = var.ml_scrapper_app
+  container_app_environment_id = azurerm_container_app_environment.mlScrapperEnv.id
+  resource_group_name          = azurerm_resource_group.mlObli.name
+  revision_mode                = "Single"
+
+  template {
+    container {
+      name   = "scrapper"
+      image  = var.scrapper_image
+      cpu    = 0.25
+      memory = "0.5Gi"
+    }
+  }
+}

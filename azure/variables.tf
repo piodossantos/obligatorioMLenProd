@@ -24,3 +24,15 @@ variable "storage_container_name"{
 variable "docker_registry_name"{
     default = "mlcontainerregistrymm278566"
 }
+variable "ml_scrapper_logs"{
+    default = "scrapperlogs"
+}
+variable "ml_scrapper_env"{
+    default = "scrapperenv"
+}
+variable "ml_scrapper_app"{
+    default = "scrapperapp"
+}
+variable "scrapper_image"{
+    default = "mlcontainerregistrymm278566.azurecr.io/scrapper:latest"
+}

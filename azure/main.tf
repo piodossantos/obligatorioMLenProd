@@ -32,32 +32,40 @@ resource "azurerm_container_registry" "mlContainerRegistry" {
   admin_enabled       = true
 }
 
-resource "azurerm_log_analytics_workspace" "mlScrapperLogs" {
-  name                = var.ml_scrapper_logs
+resource "azurerm_container_group" "mlScrapperCluster" {
+  name                = var.scrapper_cluster_name
   location            = azurerm_resource_group.mlObli.location
   resource_group_name = azurerm_resource_group.mlObli.name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
+  ip_address_type     = "Public"
+  os_type             = "Linux"
+
+  container {
+    name   = var.ml_scrapper_app
+    image  = var.scrapper_image
+    cpu    = 1
+    memory = 0.5
+    ports {
+      port     = 8080
+      protocol = "TCP"
+    }
+  }
 }
 
-resource "azurerm_container_app_environment" "mlScrapperEnv" {
-  name                       = var.ml_scrapper_env
-  location                   = azurerm_resource_group.mlObli.location
-  resource_group_name        = azurerm_resource_group.mlObli.name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.mlScrapperLogs.id
-}
-resource "azurerm_container_app" "mlScrapperApp" {
-  name                         = var.ml_scrapper_app
-  container_app_environment_id = azurerm_container_app_environment.mlScrapperEnv.id
-  resource_group_name          = azurerm_resource_group.mlObli.name
-  revision_mode                = "Single"
+resource "azurerm_container_group" "mlViewCluster" {
+  name                = var.view_cluster_name
+  location            = azurerm_resource_group.mlObli.location
+  resource_group_name = azurerm_resource_group.mlObli.name
+  ip_address_type     = "Public"
+  os_type             = "Linux"
 
-  template {
-    container {
-      name   = "scrapper"
-      image  = var.scrapper_image
-      cpu    = 0.25
-      memory = "0.5Gi"
+  container {
+    name   = var.ml_view_app
+    image  = var.view_image
+    cpu    = 1
+    memory = 0.5
+    ports {
+      port     = 8080
+      protocol = "TCP"
     }
   }
 }

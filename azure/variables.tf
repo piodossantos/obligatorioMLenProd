@@ -24,15 +24,21 @@ variable "storage_container_name"{
 variable "docker_registry_name"{
     default = "mlcontainerregistrymm278566"
 }
-variable "ml_scrapper_logs"{
-    default = "scrapperlogs"
-}
-variable "ml_scrapper_env"{
-    default = "scrapperenv"
+variable "scrapper_cluster_name"{
+    default = "mlcluster"
 }
 variable "ml_scrapper_app"{
     default = "scrapperapp"
 }
 variable "scrapper_image"{
-    default = "mlcontainerregistrymm278566.azurecr.io/scrapper:latest"
+    default = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
+}
+variable "view_cluster_name"{
+    default = "mlviewcluster"
+}
+variable "ml_view_app"{
+    default = "viewapp"
+}
+variable "view_image"{
+    default = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
 }

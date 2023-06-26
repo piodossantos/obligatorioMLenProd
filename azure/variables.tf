@@ -25,7 +25,7 @@ variable "docker_registry_name"{
     default = "mlcontainerregistrymm278566"
 }
 variable "scrapper_cluster_name"{
-    default = "mlcluster"
+    default = "mlscrapcluster"
 }
 variable "ml_scrapper_app"{
     default = "scrapperapp"

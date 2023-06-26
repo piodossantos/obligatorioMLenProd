@@ -31,7 +31,7 @@ variable "ml_scrapper_app"{
     default = "scrapperapp"
 }
 variable "scrapper_image"{
-    default = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
+    default = "gallito:latest"
 }
 variable "view_cluster_name"{
     default = "mlviewcluster"

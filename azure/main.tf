@@ -39,9 +39,15 @@ resource "azurerm_container_group" "mlScrapperCluster" {
   ip_address_type     = "Public"
   os_type             = "Linux"
 
+    image_registry_credential {
+        server = "${azurerm_container_registry.mlContainerRegistry.name}.azurecr.io"
+        password = azurerm_container_registry.mlContainerRegistry.admin_password
+        username = azurerm_container_registry.mlContainerRegistry.admin_username
+    }
+
   container {
     name   = var.ml_scrapper_app
-    image  = var.scrapper_image
+    image  = "${azurerm_container_registry.mlContainerRegistry.name}.azurecr.io/${var.scrapper_image}"
     cpu    = 1
     memory = 0.5
     ports {
@@ -57,7 +63,11 @@ resource "azurerm_container_group" "mlViewCluster" {
   resource_group_name = azurerm_resource_group.mlObli.name
   ip_address_type     = "Public"
   os_type             = "Linux"
-
+    image_registry_credential {
+        server = "${azurerm_container_registry.mlContainerRegistry.name}.azurecr.io"
+        password = azurerm_container_registry.mlContainerRegistry.admin_password
+        username = azurerm_container_registry.mlContainerRegistry.admin_username
+    }
   container {
     name   = var.ml_view_app
     image  = var.view_image

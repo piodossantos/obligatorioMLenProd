@@ -9,3 +9,4 @@ class PropertyItem(scrapy.Item):
     url = scrapy.Field()
     link = scrapy.Field()
     property_type = scrapy.Field()
+    product_name=scrapy.Field()

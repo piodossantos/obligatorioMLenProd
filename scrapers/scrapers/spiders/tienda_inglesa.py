@@ -9,7 +9,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapers.azure_helpers import append_file_to_blob
 from scrapers.items import PropertyItem
 
-
+import os
 class TiendaInglesaSpider(CrawlSpider):
     name = "tienda_inglesa"
     custom_settings = {
@@ -18,11 +18,12 @@ class TiendaInglesaSpider(CrawlSpider):
             "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         ),
         "FEEDS": {
-            # SU CÓDIGO AQUÍ
+            'properties_tienda_inglesa.jl':{"format":"jsonlines"}
         },
         "max_items_per_label": 1,
         "label_field": "property_type",
         "CLOSESPIDER_ITEMCOUNT": 1,
+        "DEPTH_LIMIT":os.environ.get("MAX_ITEMS")
     }
     start_urls = [
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,78,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",

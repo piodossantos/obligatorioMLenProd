@@ -6,7 +6,7 @@ from scrapy.exceptions import DropItem
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.spiders import Spider
 from scrapy.utils.misc import md5sum
-
+import os
 from scrapers.azure_helpers import upload_blob
 
 
@@ -26,10 +26,11 @@ class DuplicatesPipeline:
 class ItemLimit:
     def __init__(self, max_items_per_label: int, label_field: str):
         self.label_counts = defaultdict(int)
-        self.max_items_per_label = max_items_per_label
+        self.max_items_per_label =os.environ.get("MAX_ITEMS")
         self.label_field = label_field
 
     def process_item(self, item, spider: Spider) -> dict:
+
         adapter = ItemAdapter(item)
         label = adapter[self.label_field]
         if self.label_counts[label] >= self.max_items_per_label:

@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+import hashlib
 
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
@@ -33,7 +34,8 @@ class ItemLimit:
 
         adapter = ItemAdapter(item)
         label = adapter[self.label_field]
-        if self.label_counts[label] >= self.max_items_per_label:
+
+        if self.label_counts[label] >= int(self.max_items_per_label):
             raise DropItem(f"Reached max number of items for label {label}")
         else:
             self.label_counts[label] += 1
@@ -59,8 +61,11 @@ class AzureImagesPipeline(ImagesPipeline):
         # y el id o algún otro dato en el path de la imagen en el blob
         checksum = None
         for path, _, buf in self.get_images(response, request, info, item=item):
+            item.bucket_url=path
             if checksum is None:
                 buf.seek(0)
                 checksum = md5sum(buf)
             upload_blob(path, buf)
         return checksum
+
+

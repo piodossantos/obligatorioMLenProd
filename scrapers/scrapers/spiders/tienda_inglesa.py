@@ -51,7 +51,7 @@ class TiendaInglesaSpider(CrawlSpider):
         # property details
         property_id = get_with_css("#TXTPRODUCTCODE::text").split(" ")[-1]
         img_urls = get_with_css("#vVARMAINPRODUCTPICTURE::attr('src')")
-        img_urls = [img for img in img_urls.split(",") if img][0]
+        img_urls = [[img for img in img_urls.split(",") if img][0]]
         possible_types = {
             "78": "WAREHOUSE",
             "1894": "FRESH",
@@ -79,7 +79,6 @@ class TiendaInglesaSpider(CrawlSpider):
             "property_type": property_type,
             "product_name":product_name,
         }
-        print('property',property)
         yield PropertyItem(**property)
 
     @classmethod

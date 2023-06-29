@@ -7,7 +7,6 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapers.azure_helpers import append_file_to_blob
 from scrapers.items import PropertyItem
-
 import os
 class TiendaInglesaSpider(CrawlSpider):
     name = "tienda_inglesa"
@@ -17,7 +16,7 @@ class TiendaInglesaSpider(CrawlSpider):
             "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         ),
         "FEEDS": {
-            'properties_tienda_inglesa.jl':{"format":"jsonlines"}
+            'properties_tienda_inglesa.csv':{"format":"csv"}
         },
         "max_items_per_label": 1,
         "label_field": "property_type",

@@ -14,7 +14,6 @@ from scrapers.azure_helpers import upload_blob
 class DuplicatesPipeline:
     def __init__(self):
         self.ids_seen = set()
-
     def process_item(self, item, spider: Spider) -> dict:
         adapter = ItemAdapter(item)
         if adapter["id"] in self.ids_seen:

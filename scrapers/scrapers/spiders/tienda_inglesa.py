@@ -5,7 +5,6 @@ from scrapy import signals
 from scrapy.http.response.html import HtmlResponse
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
-
 from scrapers.azure_helpers import append_file_to_blob
 from scrapers.items import PropertyItem
 

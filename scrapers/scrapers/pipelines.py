@@ -61,7 +61,6 @@ class AzureImagesPipeline(ImagesPipeline):
         # y el id o algún otro dato en el path de la imagen en el blob
         checksum = None
         for path, _, buf in self.get_images(response, request, info, item=item):
-            item.bucket_url=path
             if checksum is None:
                 buf.seek(0)
                 checksum = md5sum(buf)

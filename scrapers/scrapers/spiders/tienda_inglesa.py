@@ -18,14 +18,23 @@ class TiendaInglesaSpider(CrawlSpider):
         "FEEDS": {
             'properties_tienda_inglesa.csv':{"format":"csv"}
         },
-        "max_items_per_label": 1,
+        "max_items_per_label": os.environ.get("MAX_ITEMS_PER_LABEL"),
         "label_field": "property_type",
-        "CLOSESPIDER_ITEMCOUNT": 1,
+        "CLOSESPIDER_ITEMCOUNT":os.environ.get("CLOSESPIDER_ITEMCOUNT"),
         "DEPTH_LIMIT":os.environ.get("MAX_ITEMS")
     }
     start_urls = [
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,78,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1894,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1001,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,181,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1895,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,569,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,302,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,618,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,4677,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1005,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
+
     ]
 
     rules = (
@@ -33,7 +42,7 @@ class TiendaInglesaSpider(CrawlSpider):
             LinkExtractor(
                 allow=(
                     [
-                        r"\/busqueda\?0,0,\*:\*,(78|1894).*",
+                        r"\/busqueda\?0,0,\*:\*,(78|1894|1001|181|1895|569|302|618|4677|1005).*",
                     ]
                 )
             )

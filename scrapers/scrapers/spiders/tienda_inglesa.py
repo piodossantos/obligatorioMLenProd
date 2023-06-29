@@ -16,7 +16,10 @@ class TiendaInglesaSpider(CrawlSpider):
             "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         ),
         "FEEDS": {
-            'properties_tienda_inglesa.csv':{"format":"csv"}
+            'properties_tienda_inglesa.csv':{
+                    "format":"csv",
+                    'item_export_kwargs': {'include_headers_line': False},
+                }
         },
         "max_items_per_label": os.environ.get("MAX_ITEMS_PER_LABEL"),
         "label_field": "property_type",

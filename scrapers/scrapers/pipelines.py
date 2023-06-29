@@ -64,7 +64,10 @@ class AzureImagesPipeline(ImagesPipeline):
             if checksum is None:
                 buf.seek(0)
                 checksum = md5sum(buf)
-            upload_blob(path, buf)
+            try:
+              upload_blob(path, buf)
+            except:
+              pass
         return checksum
 
 

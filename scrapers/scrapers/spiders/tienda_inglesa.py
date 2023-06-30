@@ -28,14 +28,10 @@ class TiendaInglesaSpider(CrawlSpider):
     }
     start_urls = [
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,78,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
-       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1894,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1001,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,181,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1895,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
-       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,569,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,302,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
-       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,618,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
-       "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,4677,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
        "https://www.tiendainglesa.com.uy/busqueda?0,0,*:*,1005,0,0,,%5B%5D,false,%5B%5D,%5B%5D,,0",
 
     ]
@@ -45,7 +41,7 @@ class TiendaInglesaSpider(CrawlSpider):
             LinkExtractor(
                 allow=(
                     [
-                        r"\/busqueda\?0,0,\*:\*,(78|1894|1001|181|1895|569|302|618|4677|1005).*",
+                        r"\/busqueda\?0,0,\*:\*,(78|1001|181|1895|302|618|1005).*",
                     ]
                 )
             )
@@ -64,14 +60,10 @@ class TiendaInglesaSpider(CrawlSpider):
         img_urls = [[img for img in img_urls.split(",") if img][0]]
         possible_types = {
             "78": "WAREHOUSE",
-            "1894": "FRESH",
             "1001": "DRINKS",
             "181": "CLEANING",
             "1895": "FROZEN",
-            "569": "TOY",
             "302": "TECHNOLOGY",
-            "618": "HOME",
-            "4677": "FITNESS",
             "1005": "PERFUMERY"
         }
 

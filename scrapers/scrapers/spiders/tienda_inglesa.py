@@ -8,6 +8,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapers.azure_helpers import append_file_to_blob
 from scrapers.items import PropertyItem
 import os
+from datetime import datetime
 class TiendaInglesaSpider(CrawlSpider):
     name = "tienda_inglesa"
     custom_settings = {
@@ -16,7 +17,7 @@ class TiendaInglesaSpider(CrawlSpider):
             "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         ),
         "FEEDS": {
-            'properties_tienda_inglesa.csv':{
+            f'properties_tienda_inglesa-{datetime.now()}.csv':{
                     "format":"csv",
                     'item_export_kwargs': {'include_headers_line': False},
                 }

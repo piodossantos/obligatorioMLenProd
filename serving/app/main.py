@@ -6,6 +6,8 @@ import numpy as np
 from PIL import Image
 import uvicorn
 from keras import backend as K
+from typing import List
+
 
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -23,6 +25,14 @@ def f1_m(y_true, y_pred):
     precision = precision_m(y_true, y_pred)
     recall = recall_m(y_true, y_pred)
     return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
+def load_image(image_file):
+  try:
+      image = Image.open(image_file.file)
+      image = np.expand_dims(image, axis=0)
+      return image
+  except Exception as e:
+      raise HTTPException(status_code=400, detail=f"Error processing image: {e}")
 
 print('STARTING APP')
 
@@ -66,6 +76,29 @@ async def predict(image_file: UploadFile = File(...)):
 
     return {"predicted_class": int(predicted_class)}
 
+@app.post('/predict_batch')
+async def predict_batch(images: List[UploadFile]):
+    if not model:
+        raise HTTPException(status_code=500, detail="Model could not be loaded")
+    try:
+        image_list = map(load_image, images)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error processing image: {e}")
+
+    try:
+        predictions = model.predict(image_list)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error making prediction: {e}")
+
+    try:
+        classes = []
+        for prediction in predictions:
+          classes.append(int(np.argmax(prediction)))
+        return {"predicted_classes": classes}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error interpreting prediction: {e}")
+    
+
 if __name__ == "__main__":
-    import uvicorn  
+    import uvicorn 
     uvicorn.run(app, host="0.0.0.0", port=80)

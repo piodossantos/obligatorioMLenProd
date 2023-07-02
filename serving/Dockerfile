@@ -14,5 +14,5 @@ COPY models/model1.h5 models/model1.h5
 COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

@@ -3,13 +3,6 @@ resource "azurerm_resource_group" "mlObli" {
   name     = var.resource_group_name
 }
 
-resource "azurerm_virtual_network" "mlObliNetwork" {
-  name                = var.private_network_name
-  resource_group_name = azurerm_resource_group.mlObli.name
-  location            = azurerm_resource_group.mlObli.location
-  address_space       = var.private_ip_range
-}
-
 resource "azurerm_storage_account" "mlObliStorage" {
   name                     = var.storage_account_name
   resource_group_name      = azurerm_resource_group.mlObli.name
@@ -32,50 +25,3 @@ resource "azurerm_container_registry" "mlContainerRegistry" {
   admin_enabled       = true
 }
 
-resource "azurerm_container_group" "mlScrapperCluster" {
-  name                = var.scrapper_cluster_name
-  location            = azurerm_resource_group.mlObli.location
-  resource_group_name = azurerm_resource_group.mlObli.name
-  ip_address_type     = "Public"
-  os_type             = "Linux"
-
-    image_registry_credential {
-        server = "${azurerm_container_registry.mlContainerRegistry.name}.azurecr.io"
-        password = azurerm_container_registry.mlContainerRegistry.admin_password
-        username = azurerm_container_registry.mlContainerRegistry.admin_username
-    }
-
-  container {
-    name   = var.ml_scrapper_app
-    image  = "${azurerm_container_registry.mlContainerRegistry.name}.azurecr.io/${var.scrapper_image}"
-    cpu    = 1
-    memory = 0.5
-    ports {
-      port     = 8080
-      protocol = "TCP"
-    }
-  }
-}
-
-resource "azurerm_container_group" "mlViewCluster" {
-  name                = var.view_cluster_name
-  location            = azurerm_resource_group.mlObli.location
-  resource_group_name = azurerm_resource_group.mlObli.name
-  ip_address_type     = "Public"
-  os_type             = "Linux"
-    image_registry_credential {
-        server = "${azurerm_container_registry.mlContainerRegistry.name}.azurecr.io"
-        password = azurerm_container_registry.mlContainerRegistry.admin_password
-        username = azurerm_container_registry.mlContainerRegistry.admin_username
-    }
-  container {
-    name   = var.ml_view_app
-    image  = var.view_image
-    cpu    = 1
-    memory = 0.5
-    ports {
-      port     = 8080
-      protocol = "TCP"
-    }
-  }
-}

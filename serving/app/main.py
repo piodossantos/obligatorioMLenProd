@@ -97,7 +97,7 @@ async def predict_batch(images: List[UploadFile]):
         return {"predicted_classes": classes}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error interpreting prediction: {e}")
-    
+
 
 if __name__ == "__main__":
     import uvicorn 
